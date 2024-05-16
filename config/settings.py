@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,3 +125,17 @@ STATICFILES_DIRS =[
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Fruits Admin",
+    "site_header": "Fruits",
+    "site_logo": "img/fruit.png",
+    "login_logo": "img/avatar.jpg",
+    "site_icon": "img/baner-1.png",
+    "welcome_sign": "Welcome to the library",
+    "user_avatar": "img/baner-1.png",
+    "search_model": ["fruit.Product",],
+
+
+}

@@ -1,8 +1,6 @@
 from typing import Any
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
-# relationship model [one to many],[many to one],[many to many], 
 
 
 class OrderStatusTextChoices(models.TextChoices):
@@ -30,8 +28,11 @@ class Product(models.Model):
     checked = models.CharField(max_length=200)
     min_weight = models.FloatField()
     image = models.ImageField(upload_to="Products/")
+    
 
     category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name="Products")
+
+    
 
     def __str__(self):
         return self.title
