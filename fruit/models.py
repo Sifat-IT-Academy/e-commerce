@@ -19,8 +19,9 @@ class Category(models.Model):
     
 class Product(models.Model):
     title = models.CharField(max_length=200)
+    slug = models.SlugField() #new
     price = models.FloatField()
-    rating = models.IntegerField()
+    rating = models.FloatField(default=4) #change
     description = models.TextField()
     weight = models.FloatField()
     country_of_origin = models.CharField(max_length=200)

@@ -5,11 +5,8 @@ from django.urls import reverse
 from .forms import ContactForm
 from .bot import send_message
 from .models import Contact,Product,Category
-from django.views.generic import View,TemplateView
+from django.views.generic import View,TemplateView,DetailView
 
-# def home_view(request):
-    
-#     return render(request,"index.html")
 
 class HomeView(TemplateView):
     template_name = "index.html"
@@ -26,7 +23,10 @@ class HomeView(TemplateView):
         return context
 
     
-
+class ShopDetailView(DetailView):
+    model = Product
+    template_name = "shop-detail.html"
+    context_object_name = "product"
 
 def shop_view(request):
     return render(request,"shop.html")

@@ -8,9 +8,9 @@ admin.site.register((Category, Cart, CartItem))
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ["title","price","image_tag"]
-    # fields = ['image_tag']
+    prepopulated_fields = {"slug": ("title",)}
     search_fields = ["title"]
-    readonly_fields = ['image_tag']
+    readonly_fields = ['image_tag','rating'] #change
     def image_tag(self, obj):
         return format_html('<img width="100" height="100" src="{}" />'.format(obj.image.url))
 

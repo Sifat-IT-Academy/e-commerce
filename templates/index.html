@@ -186,6 +186,7 @@
                                         {% if products %}
                                         {% for product in products %}
                                         <div class="col-md-6 col-lg-4 col-xl-3">
+                                            <a href="{% url 'detail-page' product.slug %}">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
                                                     <img src="{{ product.image }}" class="img-fluid w-100 rounded-top" alt="">
@@ -200,6 +201,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            </a>
                                         </div>
                                         {% endfor %}
 
