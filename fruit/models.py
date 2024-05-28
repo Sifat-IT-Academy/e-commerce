@@ -50,7 +50,8 @@ class Comment(models.Model):
     full_name = models.CharField(max_length=50)
     description = models.TextField()
     rating = models.IntegerField()
-
+    email = models.EmailField(max_length=100) #new
+    created_date = models.DateField(auto_now=True) #new
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
 
     def __str__(self):

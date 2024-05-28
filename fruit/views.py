@@ -2,9 +2,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .forms import ContactForm
+from .forms import ContactForm,CommentForm
 from .bot import send_message
-from .models import Contact,Product,Category
+from .models import Contact,Product,Category,Comment
 from django.views.generic import View,TemplateView,DetailView
 
 
@@ -27,7 +27,14 @@ class ShopDetailView(DetailView):
     model = Product
     template_name = "shop-detail.html"
     context_object_name = "product"
-
+    form_class = CommentForm
+    def get_context_data(self,*args, **kwargs):
+        context = super(ShopDetailView, self).get_context_data(*args,**kwargs)
+        # context['product'] = Product.objects.filter(slug=self.slug_field)
+        context["comments"] = Comment.objects.filter(product=self.object).order_by("-created_date") #vazifa
+        context["form"] = CommentForm()
+        return context
+    
 def shop_view(request):
     return render(request,"shop.html")
 
