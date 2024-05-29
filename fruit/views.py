@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.urls import reverse
 
 from .forms import ContactForm,CommentForm
@@ -22,19 +22,39 @@ class HomeView(TemplateView):
 
         return context
 
-    
 class ShopDetailView(DetailView):
     model = Product
     template_name = "shop-detail.html"
     context_object_name = "product"
     form_class = CommentForm
-    def get_context_data(self,*args, **kwargs):
-        context = super(ShopDetailView, self).get_context_data(*args,**kwargs)
-        # context['product'] = Product.objects.filter(slug=self.slug_field)
-        context["comments"] = Comment.objects.filter(product=self.object).order_by("-created_date") #vazifa
-        context["form"] = CommentForm()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["comments"] = Comment.objects.filter(product=self.object).order_by("-created_date")
+        context["form"] = self.form_class()
         return context
-    
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            # Process form data
+            full_name = form.cleaned_data['full_name']
+            description = form.cleaned_data['description']
+            rating = form.cleaned_data['rating']
+            email = form.cleaned_data['email']
+            comment = Comment()
+            comment.full_name = full_name
+            comment.product = self.object
+            comment.description = description
+            comment.rating = rating
+            comment.email = email
+            comment.save()
+            return redirect(self.object.get_absolute_url())
+        else:
+            print(form.errors)  # Xatolikni chop etish
+        return self.render_to_response(self.get_context_data(form=form))
 def shop_view(request):
     return render(request,"shop.html")
 

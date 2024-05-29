@@ -1,12 +1,13 @@
-from django.forms import ModelForm
-from .models import Contact,Comment
+from django import forms
+from .models import Contact
 
-class ContactForm(ModelForm):
+class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
         fields = '__all__'
 
-class CommentForm(ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['full_name','description','rating','email']
+class CommentForm(forms.Form):
+    full_name = forms.CharField(max_length=100)
+    description = forms.CharField(widget=forms.Textarea)
+    rating = forms.IntegerField(min_value=1, max_value=5)
+    email = forms.EmailField()
