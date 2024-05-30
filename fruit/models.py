@@ -30,8 +30,6 @@ class Product(models.Model):
     checked = models.CharField(max_length=200)
     min_weight = models.FloatField()
     image = models.ImageField(upload_to="Products/")
-    
-
     category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name="Products")
 
     def get_absolute_url(self): #new

@@ -32,6 +32,7 @@ class ShopDetailView(DetailView):
         context = super().get_context_data(*args, **kwargs)
         context["comments"] = Comment.objects.filter(product=self.object).order_by("-created_date")
         context["form"] = self.form_class()
+        context["reyting"] = [1,2,3,4,5]
         return context
 
     def post(self, request, *args, **kwargs):
@@ -55,6 +56,7 @@ class ShopDetailView(DetailView):
         else:
             print(form.errors)  # Xatolikni chop etish
         return self.render_to_response(self.get_context_data(form=form))
+    
 def shop_view(request):
     return render(request,"shop.html")
 
