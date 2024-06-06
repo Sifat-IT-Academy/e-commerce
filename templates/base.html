@@ -167,6 +167,11 @@
 
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js'%}"></script>
+    <script>
+        document.getElementById("price").addEventListener("input", function() {
+            document.getElementById("amount").value = this.value;
+        });
+    </script>
     </body>
 
 </html>

@@ -5,7 +5,7 @@ from django.urls import reverse
 from .forms import ContactForm,CommentForm
 from .bot import send_message
 from .models import Contact,Product,Category,Comment
-from django.views.generic import View,TemplateView,DetailView
+from django.views.generic import View,TemplateView,DetailView,ListView
 
 
 class HomeView(TemplateView):
@@ -56,9 +56,20 @@ class ShopDetailView(DetailView):
         else:
             print(form.errors)  # Xatolikni chop etish
         return self.render_to_response(self.get_context_data(form=form))
-    
-def shop_view(request):
-    return render(request,"shop.html")
+
+
+class ShopView(ListView):
+    model = Product
+    paginate_by = 2
+    template_name = "shop.html"
+    context_object_name ="Products"
+    def get_queryset(self):
+            queryset = super().get_queryset()
+            min_price = self.request.GET.get('price')
+            if min_price:
+                queryset = queryset.filter(price__lte=min_price)
+            return queryset
+
 
 class ContactView(View):
     template_name = "contact.html"
