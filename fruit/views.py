@@ -63,11 +63,15 @@ class ShopView(ListView):
     paginate_by = 2
     template_name = "shop.html"
     context_object_name ="Products"
+    
     def get_queryset(self):
             queryset = super().get_queryset()
             min_price = self.request.GET.get('price')
+            name = self.request.GET.get('q')
             if min_price:
                 queryset = queryset.filter(price__lte=min_price)
+            if name:
+                queryset = queryset.filter(title__icontains=name)
             return queryset
 
 
