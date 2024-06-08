@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render,redirect
 from django.urls import reverse
 
-from .forms import ContactForm,CommentForm
+from .forms import CommentForm
 from .bot import send_message
 from .models import Contact,Product,Category,Comment
 from django.views.generic import View,TemplateView,DetailView,ListView
@@ -14,7 +14,9 @@ class HomeView(TemplateView):
     def get_context_data(self,*args, **kwargs):
         context = super(HomeView, self).get_context_data(*args,**kwargs)
         context['products'] = Product.objects.all()
+        context['besteller_products'] = Product.objects.all().order_by('-rating')[:6] #new
         context['categories'] = Category.objects.all()
+        context["reyting"] = [1,2,3,4,5]
         
         query = self.request.GET.get('q')
         if query:
