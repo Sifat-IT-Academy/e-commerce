@@ -10,6 +10,6 @@ urlpatterns = [
     path("registration/",register,name='register'),
     path('cart/', cart, name="cart"),
     path('cart/add_product/<int:product_id>/', add_cart, name="add-cart"),
-    path('cart/sub_product/<int:product_id>/', sub_cart, name="cart_sub"),
-    path('cart/remove_product/<int:product_id>/', remove_cart, name="cart_remove"),
+    path('cart/sub_product/<int:product_id>/', sub_cart, name="sub-cart"),
+    path('cart/remove_product/<int:product_id>/', remove_cart, name="remove-cart"),
 ]

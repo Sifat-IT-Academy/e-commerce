@@ -97,9 +97,9 @@
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
+                                            <a href="{% url 'sub-cart' cart.product.id %}" class="btn btn-sm btn-minus rounded-circle bg-light border" >
                                             <i class="fa fa-minus"></i>
-                                            </button>
+                                            </a>
                                         </div>
                                         <input type="text" class="form-control form-control-sm text-center border-0" value="{{cart.quantity}}">
                                         <div class="input-group-btn">
@@ -113,11 +113,10 @@
                                     <p class="mb-0 mt-4">{{cart.get_total}} $</p>
                                 </td>
                                 <td>
-                                    <a href="{% url 'cart_remove' cart.product.id %}" class="btn btn-md rounded-circle bg-light border mt-4" >
+                                    <a href="{% url 'remove-cart' cart.product.id %}" class="btn btn-md rounded-circle bg-light border mt-4" >
                                         <i class="fa fa-times text-danger"></i>
                                     </a>
                                 </td>
-                            
                             </tr>
                             {% endfor %}
                         </tbody>

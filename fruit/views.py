@@ -95,11 +95,11 @@ class ContactView(View):
 
         return HttpResponseRedirect(reverse('home-page'))   
 
-def chackout(request):
-    return render(request,"chackout.html")
+# def chackout(request):
+#     return render(request,"chackout.html")
 
-def cart(request):
-    return render(request,"cart.html")
+# def cart(request):
+#     return render(request,"cart.html")
 
 from .forms import LoginForm, UserRegistrationForm
 
@@ -123,20 +123,17 @@ def register(request):
 
 
 def cart(request):
-
     try:
         cart= Cart.objects.get(session_id=_cart_id(request))
         cart_items = CartItem.objects.filter(cart=cart)
         total = 0
         for cart_item in cart_items:
             total += cart_item.quantity*cart_item.product.price
-        tax = (total * 2) / 100
-        gen_total = total - tax
+        shipping = 10
         context = {
         'cart_items': cart_items,
-        'total': total,
-        'tax': tax,
-        'gen_total': gen_total
+        'shipping': shipping,
+        'get_total': total+shipping
     }
     
     except ObjectDoesNotExist:
