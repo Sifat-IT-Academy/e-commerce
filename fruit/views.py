@@ -13,11 +13,15 @@ class HomeView(TemplateView):
     template_name = "index.html"
 
     def get_context_data(self,*args, **kwargs):
+        cart= Cart.objects.get(session_id=_cart_id(self.request))
+        cart_items = CartItem.objects.filter(cart=cart)
+        count = len(cart_items)
         context = super(HomeView, self).get_context_data(*args,**kwargs)
         context['products'] = Product.objects.all()
         context['besteller_products'] = Product.objects.all().order_by('-rating')[:6] #new
         context['categories'] = Category.objects.all()
         context["reyting"] = [1,2,3,4,5]
+        context['count'] = count
         
         query = self.request.GET.get('q')
         if query:
@@ -95,31 +99,8 @@ class ContactView(View):
 
         return HttpResponseRedirect(reverse('home-page'))   
 
-# def chackout(request):
-#     return render(request,"chackout.html")
-
-# def cart(request):
-#     return render(request,"cart.html")
-
-from .forms import LoginForm, UserRegistrationForm
-
-def register(request):
-    if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST)
-        if user_form.is_valid():
-            # Create a new user object but avoid saving it yet
-            new_user = user_form.save(commit=False)
-            # Set the chosen password
-            new_user.set_password(user_form.cleaned_data['password'])
-            # Save the User object
-            new_user.save()
-            return render(request, 'register_done.html', {'new_user': new_user})
-    else:
-        user_form = UserRegistrationForm()
-    return render(request, 'register.html', {'user_form': user_form})
-
-
-
+def chackout(request):
+    return render(request,"chackout.html")
 
 
 def cart(request):
@@ -133,7 +114,9 @@ def cart(request):
         context = {
         'cart_items': cart_items,
         'shipping': shipping,
-        'get_total': total+shipping
+        'total':total,
+        'get_total': total+shipping,
+        'count':len(cart_items)
     }
     
     except ObjectDoesNotExist:
